@@ -6,14 +6,14 @@ if (isset($_POST['submit'])) {
 	$fname = $_POST['name'];
 	$mobno = $_POST['mobilenumber'];
 	$email = $_POST['email'];
-	$password = md5($_POST['password']);
+	$password = $_POST['password'];
 
 	$ret = mysqli_query($con, "select Email from tbluser where Email='$email' ");
 	$result = mysqli_fetch_array($ret);
 	if ($result > 0) {
-		$msg = "This email  associated with another account";
+		$msg = "This email is associated with another account";
 	} else {
-		$query = mysqli_query($con, "insert into tbluser(FullName, MobileNumber, Email,  Password) value('$fname', '$mobno', '$email', '$password' )");
+		$query = mysqli_query($con, "insert into tbluser(FullName, MobileNumber, Email, Password) value('$fname', '$mobno', '$email', '$password')");
 		if ($query) {
 			$msg = "You have successfully registered";
 		} else {
@@ -37,13 +37,14 @@ if (isset($_POST['submit'])) {
 	<script type="text/javascript">
 		function checkpass() {
 			if (document.signup.password.value != document.signup.repeatpassword.value) {
-				alert('Password and Repeat Password field does not match');
+				alert('Password and Repeat Password fields do not match');
 				document.signup.repeatpassword.focus();
 				return false;
 			}
 			return true;
 		}
 	</script>
+</head>
 
 <body>
 	<div class="row">
@@ -65,7 +66,7 @@ if (isset($_POST['submit'])) {
 								<input class="form-control" placeholder="E-mail" name="email" type="email" required="true">
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" maxlength="10" pattern="[0-9]{10}" required="true">
+								<input type="text" class="form-control" id="mobilenumber" name="mobilenumber" placeholder="Mobile Number" pattern="[0-9]+" required="true">
 							</div>
 							<div class="form-group">
 								<input class="form-control" placeholder="Password" name="password" type="password" value="" required="true">
@@ -81,9 +82,8 @@ if (isset($_POST['submit'])) {
 					</form>
 				</div>
 			</div>
-		</div><!-- /.col-->
-	</div><!-- /.row -->
-
+		</div>
+	</div>
 
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
